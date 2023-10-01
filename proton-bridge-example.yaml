@@ -1,0 +1,32 @@
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  name: "proton"
+spec:
+  restartPolicy: Always
+  containers:
+    - name: "bridge"
+      image: "localhost/podcommander/proton-bridge:3.4.2"
+      env:
+        - name: "USERNAME"
+          value: "proton_username"
+        - name: "PASSWORD"
+          value: "proton_password"
+        - name: "2FA_CODE"
+          value: "proton_2fa"
+        - name: "KEYRING_PASSPHRASE"
+          value: "gnome_keyring_passphrase"
+      volumeMounts:
+        - mountPath: /root/.config/protonmail/bridge-v3:z
+          name: proton_config
+        - mountPath: /root/.local/share/:z
+          name: proton_data
+  volumes:
+    - name: proton_config
+      hostPath:
+        path: /mnt/containers/appdata/proton_bridge/config
+        type: DirectoryOrCreate
+    - name: proton_data
+      hostPath:
+        path: /mnt/containers/appdata/proton_bridge/data
+        type: DirectoryOrCreate

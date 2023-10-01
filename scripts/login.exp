@@ -1,0 +1,48 @@
+#!/usr/bin/env expect
+spawn /proton/proton-bridge --cli
+set timeout 10
+expect {
+  ">>>" {
+    send "list\n"
+  }
+}
+expect {
+  "No active accounts. Please add account to continue." {
+    send "login\n"
+  } "0 :*locked" {
+    send "exit\n"
+  } "0 :*connected" {
+    send "info\n"
+    expect "IMAP Settings*" {
+      send "\n"
+    }
+    expect "SMTP Settings*" {
+      send "\n"
+    }
+    expect ">>>" {
+      send "exit\n"
+    }
+  }
+}
+expect "Username:" {
+  send "$env(USERNAME)\n"
+}
+expect "Password:" {
+  send "$env(PASSWORD)\n"
+}
+expect "Two factor code:" {
+  send "$env(2FA_CODE)\n"
+}
+set timeout 3600
+expect "A sync has finished for*." {
+  send "info\n"
+}
+expect "IMAP Settings*" {
+  send "\n"
+}
+expect "SMTP Settings*" {
+  send "\n"
+}
+expect ">>>" {
+  send "exit\n"
+}
