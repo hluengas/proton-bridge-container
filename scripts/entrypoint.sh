@@ -2,7 +2,7 @@
 
 # function to unlock the gnome keyring daemon
 function unlock_gnome_keyring() {
-  eval $(echo -en "$KEYRING_PASSPHRASE" | gnome-keyring-daemon --unlock | sed -e 's/^/export /')
+  eval $(echo -en "$PROTON_KEYRING_PASSPHRASE" | gnome-keyring-daemon --unlock | sed -e 's/^/export /')
   echo '' >&2
 }
 

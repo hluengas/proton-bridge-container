@@ -9,29 +9,22 @@ expect {
 expect {
   "No active accounts. Please add account to continue." {
     send "login\n"
-  } "0 :*locked" {
+  } "A sync has finished for*." {
     send "exit\n"
-  } "0 :*connected" {
-    send "info\n"
-    expect "IMAP Settings*" {
-      send "\n"
-    }
-    expect "SMTP Settings*" {
-      send "\n"
-    }
-    expect ">>>" {
-      send "exit\n"
-    }
+    exit
+  } default {
+    send "exit\n"
+    exit
   }
 }
 expect "Username:" {
-  send "$env(USERNAME)\n"
+  send "$env(PROTON_USER)\n"
 }
 expect "Password:" {
-  send "$env(PASSWORD)\n"
+  send "$env(PROTON_PASSWORD)\n"
 }
 expect "Two factor code:" {
-  send "$env(2FA_CODE)\n"
+  send "$env(PROTON_2FA_CODE)\n"
 }
 set timeout 3600
 expect "A sync has finished for*." {
@@ -45,4 +38,5 @@ expect "SMTP Settings*" {
 }
 expect ">>>" {
   send "exit\n"
+  exit
 }

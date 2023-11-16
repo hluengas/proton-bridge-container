@@ -6,7 +6,7 @@ spec:
   restartPolicy: Always
   containers:
     - name: "bridge"
-      image: "localhost/podcommander/proton-bridge:3.4.2"
+      image: "localhost/podcommander/proton-bridge:3.5.1"
       env:
         - name: "USERNAME"
           value: "proton_username"
